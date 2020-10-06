@@ -10,13 +10,15 @@ import { AuthService } from "./auth.service";
 import { TaskService} from "./task.service";
 import { TaskComponent } from './task/task.component';
 import { AddTaskComponent } from './add-task/add-task.component';
+import { EditTaskComponent } from './edit-task/edit-task.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     TaskComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    EditTaskComponent
   ],
   imports: [
     BrowserModule,

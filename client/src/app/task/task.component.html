@@ -6,9 +6,11 @@
         <p class="card-text">
           {{task.description}}
         </p>
-        <button class="btn btn-primary">Edit task</button>
+        {{task.date | date:"shortDate"}}
       </div>
-      <div class="card-footer">{{task.date | date:"shortDate"}}</div>
+      <div class="card-footer">
+        <button class="btn btn-primary" (click)="editTask(task)">Edit task</button>
+      </div>
     </div>
   </div>
 </div>

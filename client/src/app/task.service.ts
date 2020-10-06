@@ -7,6 +7,7 @@ import { HttpClient} from "@angular/common/http";
 export class TaskService {
   private _taskServiceUrl = "http://localhost:3000/api/tasks";
   private _addTaskServiceUrl = "http://localhost:3000/api/addTask";
+  private _getTaskByIdServiceUrl = "http://localhost:3000/api/getTaskById";
   constructor(private http: HttpClient) { }
 
   getTasks() {
@@ -15,5 +16,9 @@ export class TaskService {
 
   addTask(task) {
     return this.http.post<any>(this._addTaskServiceUrl, task);
+  }
+
+  getTaskById(id) {
+    return this.http.get<any>(`${this._getTaskByIdServiceUrl}/${id}`, id);
   }
 }

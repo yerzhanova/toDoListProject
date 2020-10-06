@@ -6,6 +6,7 @@ const Task = require('../models/tasks');
 const config = require('../../config/config.json');
 const db = config.dataSources.mongo.url;
 const jwt = require('jsonwebtoken');
+const ObjectID = require('mongodb').ObjectId;
 mongoose.connect(db,  { useUnifiedTopology: true, useNewUrlParser: true }, err => {
 	if (err) {
 		console.error(err);
@@ -73,6 +74,17 @@ router.post('/addTask', (req, res) => {
 			console.log(err);
         } else {
 			res.status(200).send(savedTask);
+		}
+	})
+})
+
+router.get('/getTaskById/:id', (req, res) => {
+	let id = req.params.id;
+	Task.findOne({_id: ObjectID(id)}, (err, task) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.status(200).send(task);
 		}
 	})
 })
