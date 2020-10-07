@@ -5,6 +5,7 @@ import { RegisterComponent } from "./register/register.component";
 import { TaskComponent } from "./task/task.component";
 import { AddTaskComponent } from "./add-task/add-task.component";
 import { EditTaskComponent } from "./edit-task/edit-task.component";
+import {AuthGuard} from "./auth.guard";
 
 const routes: Routes = [
   {
@@ -17,15 +18,18 @@ const routes: Routes = [
   },
   {
     path: 'tasks',
-    component: TaskComponent
+    component: TaskComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'addTask',
-    component: AddTaskComponent
+    component: AddTaskComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'editTask/:id',
-    component: EditTaskComponent
+    component: EditTaskComponent,
+    canActivate: [AuthGuard]
   },
   { path: '',
     redirectTo: '/login',
