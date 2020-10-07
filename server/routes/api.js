@@ -75,7 +75,7 @@ router.post('/login', (req, res) => {
 				} else {
 					let payload = {subject: user._id};
 					let token = jwt.sign(payload, 'secretkey');
-					res.status(200).send({token});
+					res.status(200).send({token: token, id: user._id});
 				}
 			}
 		}
@@ -87,22 +87,32 @@ router.get('/tasks', verifyToken, (req, res) => {
 		if (err) {
 			console.log(err);
 		} else {
-			if (!tasks) {
-				// res.status(400).send('bad request');
-			} else {
-				res.status(200).send(tasks);
-			}
+			res.status(200).send(tasks);
 		}
 	});
+});
+
+//error with get param!!!
+router.get('/getTasksByUserId', verifyToken, (req, res) => {
+	let id = req.body;
+	console.log(req.body, "f");
+	Task.find({userId: ObjectID("5f7d9c69bc7791258847d382")}, (err, tasks) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.status(200).send(tasks);
+		}
+	})
 });
 
 router.post('/addTask', (req, res) => {
 	let taskData = req.body;
 	let task = new Task(taskData);
+	task.id = ObjectID(task.id);
 	task.save((err, savedTask) => {
 		if (err) {
 			console.log(err);
-        } else {
+		} else {
 			res.status(200).send(savedTask);
 		}
 	})
@@ -118,6 +128,4 @@ router.get('/getTaskById/:id', (req, res) => {
 		}
 	})
 });
-
-
 module.exports = router;

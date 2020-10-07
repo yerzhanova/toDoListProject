@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {TaskService} from "../task.service";
 
 @Component({
@@ -10,17 +10,23 @@ import {TaskService} from "../task.service";
 export class EditTaskComponent implements OnInit {
 
   constructor(private _activatedRoute: ActivatedRoute,
-              private _taskService: TaskService) { }
+              private _taskService: TaskService,
+              private _router: Router) { }
   task = {};
   id;
   ngOnInit() {
     this._activatedRoute.params.subscribe(params => {
       this.id = params.id;
-      console.log(this.id);
       this._taskService.getTaskById(this.id).subscribe(res => this.task = res );
     });
   }
   editTask() {
+    //write task edit api and bind
+  }
+  deleteTask() {
 
+  }
+  cancel(){
+    this._router.navigate(['/tasks']);
   }
 }

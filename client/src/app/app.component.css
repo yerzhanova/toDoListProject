@@ -1,0 +1,11 @@
+ul.nav a, ul.nav a:visited {
+  color: lightgrey !important;
+}
+
+ul.nav a:hover {
+  color: white !important;
+}
+
+ul.nav a.active {
+  color: white !important;
+}
