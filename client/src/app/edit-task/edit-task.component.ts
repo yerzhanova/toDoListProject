@@ -14,18 +14,24 @@ export class EditTaskComponent implements OnInit {
               private _router: Router) { }
   task = {};
   id;
+
   ngOnInit() {
     this._activatedRoute.params.subscribe(params => {
       this.id = params.id;
       this._taskService.getTaskById(this.id).subscribe(res => this.task = res );
     });
   }
-  editTask() {
-    //write task edit api and bind
-  }
-  deleteTask() {
 
+  editTask() {
+    this._taskService.editTask(this.id, this.task).subscribe(res => this.task = res);
+    this._router.navigate(['./tasks']);
   }
+
+  deleteTask() {
+    this._taskService.deleteTaskById(this.id).subscribe( res => console.log(`deleted ${res.deletedCount} task`));
+    this._router.navigate(['/tasks']);
+  }
+
   cancel(){
     this._router.navigate(['/tasks']);
   }

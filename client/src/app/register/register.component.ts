@@ -18,9 +18,11 @@ export class RegisterComponent implements OnInit {
   isValidPassword = true;
   notRegistered = false;
   errorMessage;
+
   ngOnInit() {
 
   }
+
   registerUser() {
     this.isValidEmail = true;
     this.isValidPassword = true;
@@ -42,10 +44,12 @@ export class RegisterComponent implements OnInit {
     }
     console.log(this.registerUserData);
   }
+
   validateData() {
     this.validateEmail(this.registerUserData.email);
     this.validatePassword(this.registerUserData.password);
   }
+
   validateEmail(email) {
     if (email === '') {
       this.isValidEmail = false;
@@ -53,6 +57,7 @@ export class RegisterComponent implements OnInit {
       this.isValidEmail = true;
     }
   }
+
   validatePassword(pass) {
     if (pass.length < 6) {
       this.isValidPassword = false;

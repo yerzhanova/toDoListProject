@@ -14,18 +14,13 @@ export class TaskComponent implements OnInit {
               private _router: Router) { }
   tasks = [];
   user = {
-    email: localStorage.getItem('user')
   };
+
   ngOnInit() {
-    let userId = sessionStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
     this._taskService.getTasksByUserId(userId).subscribe(
       res => {
-        console.log(res);
-        res.forEach(task => {
-          if (task.title) {
-            this.tasks.push(task);
-          }
-        });
+         this.tasks = res;
       },
       err => {
         if (err instanceof HttpErrorResponse) {
@@ -36,9 +31,11 @@ export class TaskComponent implements OnInit {
       }
     );
   }
+
   editTask(task) {
-    this._router.navigate(['editTask', task._id])
+    this._router.navigate(['editTask', task._id]);
   }
+
   addTask() {
     this._router.navigate(['addTask']);
   }

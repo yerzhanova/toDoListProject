@@ -6,14 +6,14 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RegisterComponent } from './register/register.component';
-import { AuthService } from "./auth.service";
-import { TaskService} from "./task.service";
+import { AuthService } from './auth.service';
+import { TaskService} from './task.service';
 import { TaskComponent } from './task/task.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { EditTaskComponent } from './edit-task/edit-task.component';
-import { AuthGuard } from "./auth.guard";
+import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from "./token-interceptor.service";
-import {UserService} from "./user.service";
+import { UserService } from "./user.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import {UserService} from "./user.service";
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService, TaskService, UserService,AuthGuard, {
+  providers: [AuthService, TaskService, UserService, AuthGuard, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true

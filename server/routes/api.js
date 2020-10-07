@@ -24,7 +24,6 @@ function verifyToken(req, res, next) {
 	if (token === null) {
 		return res.status(401).send('Unauthorized request');
 	}
-	console.log(jwt.malformed);
 	let payload = jwt.verify(token, 'secretkey');
 	if (!payload) {
 		return res.status(401).send('Unauthorized request');
@@ -94,9 +93,8 @@ router.get('/tasks', verifyToken, (req, res) => {
 
 //error with get param!!!
 router.get('/getTasksByUserId', verifyToken, (req, res) => {
-	let id = req.body;
-	console.log(req.body, "f");
-	Task.find({userId: ObjectID("5f7d9c69bc7791258847d382")}, (err, tasks) => {
+	let id = req.userId;
+	Task.find({userId: ObjectID(id)}, (err, tasks) => {
 		if (err) {
 			console.log(err)
 		} else {
@@ -118,6 +116,21 @@ router.post('/addTask', (req, res) => {
 	})
 });
 
+router.put('/editTask', verifyToken, (req, res) => {
+    let taskData = req.body.task;
+	let task = new Task(req.body.task);
+	let id = ObjectID(req.body.id);
+	task.updateOne(
+		{_id: id},
+        {set: {description: task.description, date: task.date, title: task.title}}, (err, editedTask) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.status(200).send(editedTask);
+		}
+	});
+});
+
 router.get('/getTaskById/:id', (req, res) => {
 	let id = req.params.id;
 	Task.findOne({_id: ObjectID(id)}, (err, task) => {
@@ -126,6 +139,18 @@ router.get('/getTaskById/:id', (req, res) => {
 		} else {
 			res.status(200).send(task);
 		}
-	})
+	});
 });
+
+router.post('/deleteTaskById', (req, res) => {
+	let id = req.body.id;
+	Task.deleteOne({_id: ObjectID(id)}, (err, count) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.status(200).send(count);
+		}
+	});
+});
+
 module.exports = router;

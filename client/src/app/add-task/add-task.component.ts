@@ -18,13 +18,14 @@ export class AddTaskComponent implements OnInit {
     userId: sessionStorage.getItem('id')
   };
   isValidTask = true;
+
   ngOnInit() {
 
   }
+
   addTask() {
     if (this.task.title !== '') {
       this.isValidTask = true;
-      console.log("task", this.task);
       this._taskService.addTask(this.task).subscribe(
         res => {
           console.log(res);
@@ -36,6 +37,7 @@ export class AddTaskComponent implements OnInit {
       this.isValidTask = false;
     }
   }
+
   cancel(){
     this._router.navigate(['./tasks']);
   }
