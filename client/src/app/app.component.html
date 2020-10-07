@@ -1,3 +1,11 @@
+
+<ul class="nav bg-secondary">
+  <a class="nav-link active" *ngIf="!isLogged()" routerLink="/login" routerLinkActive="active">Log in</a>
+  <a class="nav-link" *ngIf="!isLogged()" routerLink="/register" routerLinkActive="active">Register</a>
+  <a class="nav-link active" *ngIf="isLogged()" routerLink="/logout" routerLinkActive="active" style="cursor:pointer"
+     (click)="logOut()">Logout</a>
+</ul>
+
 <div class="container">
   <router-outlet></router-outlet>
 </div>

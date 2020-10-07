@@ -9,16 +9,23 @@
       <div class="card body">
         <form class="form m-3">
           <div class="form-group">
-            <label for="">Email</label>
+            <label>Email</label>
             <input [(ngModel)] = "registerUserData.email" name="email" class="form-control rounded-0" required>
+            <label class="text-danger" *ngIf="!isValidEmail">Email is not valid. Please make sure it correct</label>
           </div>
           <div class="form-group">
-            <label for="">Password</label>
+            <label>Password</label>
             <input type = "password" [(ngModel)] = "registerUserData.password" name="password"
                    class="form-control rounded-0"
                    required>
+            <label class="text-danger"  *ngIf="!isValidPassword">Password is not valid. Please make sure it contains
+              more than 6
+              symbol</label>
           </div>
-          <button type="button" (click) = "registerUser()" class="btn btn-primary float-right">Register</button>
+          <div class="form-group">
+            <label class="text-danger" *ngIf="notRegistered">{{errorMessage}}</label>
+            <button type="button" (click) = "registerUser()" class="btn btn-primary float-right">Register</button>
+          </div>
         </form>
       </div>
     </div>

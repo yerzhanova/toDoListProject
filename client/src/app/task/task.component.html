@@ -1,6 +1,16 @@
-<div class="row">
-  <div class="col-md-4" *ngFor="let task of tasks">
-    <div class="card text-center">
+
+<div class="row mt-10">
+  <!--<div class="col-12 h3">-->
+    <!--<label>Welcome, {{user.email}}</label>-->
+  <!--</div>-->
+  <div class="col-12 text-left mt-5">
+    <button class="btn btn-success" (click)="addTask()">Add new task</button>
+  </div>
+  <div class="col-12 mt-5 text-center">
+    <label class="h4">List of your tasks:</label>
+  </div>
+  <div class="col-md-3 mt-5" *ngFor="let task of tasks">
+    <div class="card h-100 text-center">
       <div class="card-body">
         <h5 class="card-title">{{task.title}}</h5>
         <p class="card-text">

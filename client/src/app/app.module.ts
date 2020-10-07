@@ -4,13 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RegisterComponent } from './register/register.component';
 import { AuthService } from "./auth.service";
 import { TaskService} from "./task.service";
 import { TaskComponent } from './task/task.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { EditTaskComponent } from './edit-task/edit-task.component';
+import { AuthGuard } from "./auth.guard";
+import { TokenInterceptorService } from "./token-interceptor.service";
+import {UserService} from "./user.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +30,11 @@ import { EditTaskComponent } from './edit-task/edit-task.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService, TaskService],
+  providers: [AuthService, TaskService, UserService,AuthGuard, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

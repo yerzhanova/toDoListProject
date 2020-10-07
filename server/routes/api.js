@@ -7,6 +7,7 @@ const config = require('../../config/config.json');
 const db = config.dataSources.mongo.url;
 const jwt = require('jsonwebtoken');
 const ObjectID = require('mongodb').ObjectId;
+
 mongoose.connect(db,  { useUnifiedTopology: true, useNewUrlParser: true }, err => {
 	if (err) {
 		console.error(err);
@@ -14,21 +15,50 @@ mongoose.connect(db,  { useUnifiedTopology: true, useNewUrlParser: true }, err =
 		console.log('connected to mongodb');
 	}
 });
+
+function verifyToken(req, res, next) {
+	if (!req.headers.authorization) {
+		return res.status(401).send('Unauthorized request');
+	}
+	let token = req.headers.authorization.split(' ')[1];
+	if (token === null) {
+		return res.status(401).send('Unauthorized request');
+	}
+	console.log(jwt.malformed);
+	let payload = jwt.verify(token, 'secretkey');
+	if (!payload) {
+		return res.status(401).send('Unauthorized request');
+	}
+	req.userId = payload.subject;
+	next();
+}
+
 router.get('/', (req, res) => {
 	res.send('from api route');
 });
+
 router.post('/register', (req, res) => {
 	let userData = req.body;
 	let user = new User(userData);
-	user.save((err, registeredUser) => {
+	User.find({email: user.email}, (err, registerRes) => {
 		if (err) {
 			console.log(err);
-		} else {
-			let payload = {subject: registeredUser._id};
-			let token = jwt.sign(payload, 'secretkey');
-			res.status(200).send({token});
+		} else if (registerRes) {
+			if (registerRes.length > 0) {
+				res.status(409).send('this email is almost registered');
+			} else {
+				user.save((err, registeredUser) => {
+					if (err) {
+						console.log(err);
+					} else {
+						let payload = {subject: registeredUser._id};
+						let token = jwt.sign(payload, 'secretkey');
+						res.status(200).send({token});
+					}
+				});
+			}
 		}
-	});
+	})
 });
 
 router.post('/login', (req, res) => {
@@ -45,38 +75,48 @@ router.post('/login', (req, res) => {
 				} else {
 					let payload = {subject: user._id};
 					let token = jwt.sign(payload, 'secretkey');
-					res.status(200).send({token});
+					res.status(200).send({token: token, id: user._id});
 				}
 			}
 		}
 	})
 });
 
-router.get('/tasks', (req, res) => {
+router.get('/tasks', verifyToken, (req, res) => {
 	Task.find({}, (err, tasks) => {
 		if (err) {
 			console.log(err);
 		} else {
-			if (!tasks) {
-
-			} else {
-				res.status(200).send(tasks);
-			}
+			res.status(200).send(tasks);
 		}
 	});
+});
+
+//error with get param!!!
+router.get('/getTasksByUserId', verifyToken, (req, res) => {
+	let id = req.body;
+	console.log(req.body, "f");
+	Task.find({userId: ObjectID("5f7d9c69bc7791258847d382")}, (err, tasks) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.status(200).send(tasks);
+		}
+	})
 });
 
 router.post('/addTask', (req, res) => {
 	let taskData = req.body;
 	let task = new Task(taskData);
+	task.id = ObjectID(task.id);
 	task.save((err, savedTask) => {
 		if (err) {
 			console.log(err);
-        } else {
+		} else {
 			res.status(200).send(savedTask);
 		}
 	})
-})
+});
 
 router.get('/getTaskById/:id', (req, res) => {
 	let id = req.params.id;
@@ -87,5 +127,5 @@ router.get('/getTaskById/:id', (req, res) => {
 			res.status(200).send(task);
 		}
 	})
-})
+});
 module.exports = router;

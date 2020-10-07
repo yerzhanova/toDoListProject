@@ -1,17 +1,23 @@
 <div class="row pt-5">
-  <div class="col-md-6 mx-auto">
+  <div class="col-8 mx-auto">
     <div class="card text-center">
       <div class="card-body">
         <div class="card-header">
-          <div><label>Title of task:</label></div>
-          <div><input name="name" class="card-title" [(ngModel)]="task.title"></div>
+          <div class="form-group">
+            <div><label>Title of task:</label></div>
+            <div class="w-100"
+            ><input name="name" class="card-title mw-100" [(ngModel)]="task.title" placeholder="Title of task"></div>
+            <div><label class="text-danger" *ngIf="!isValidTask">Title is empty!</label></div>
+          </div>
         </div>
-        <div class="card-body ">
+        <div class="card-body">
           <div><label>Description:</label></div>
-          <div><textarea name="description" class="card-title" [(ngModel)]="task.description" row="5"></textarea></div>
+          <div><textarea name="description" class="card-title" [(ngModel)]="task.description" rows="5"
+                         placeholder="..."></textarea></div>
         </div>
-        <div class="card-footer">
-          <button class="btn btn-primary" (click)="addTask()">save</button>
+        <div class="card-footer text-center">
+            <button class="btn btn-primary float-right mr-2" (click)="addTask()">save</button>
+            <button class="btn btn-primary float-right mr-2" (click)="cancel()">cancel</button>
         </div>
       </div>
     </div>

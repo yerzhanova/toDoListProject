@@ -11,20 +11,53 @@ export class RegisterComponent implements OnInit {
   constructor(private _auth: AuthService,
               private _router: Router) { }
   registerUserData = {
-
+    email: '',
+    password: ''
   };
+  isValidEmail = true;
+  isValidPassword = true;
+  notRegistered = false;
+  errorMessage;
   ngOnInit() {
+
   }
   registerUser() {
-    this._auth.registerUser(this.registerUserData).subscribe
-    (
-      res => {
-        console.log(res);
-        localStorage.setItem('token', res.token);
-        this._router.navigate(['/tasks']);
-      },
-      err => console.log(err)
-    );
+    this.isValidEmail = true;
+    this.isValidPassword = true;
+    this.validateData();
+    if (this.isValidEmail && this.isValidPassword) {
+      this._auth.registerUser(this.registerUserData).subscribe(
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', this.registerUserData.email);
+          this._router.navigate(['/tasks']);
+        },
+        err => {
+          this.errorMessage = err.error;
+          this.notRegistered = true;
+          console.log(err);
+        }
+      );
+    }
     console.log(this.registerUserData);
+  }
+  validateData() {
+    this.validateEmail(this.registerUserData.email);
+    this.validatePassword(this.registerUserData.password);
+  }
+  validateEmail(email) {
+    if (email === '') {
+      this.isValidEmail = false;
+    } else {
+      this.isValidEmail = true;
+    }
+  }
+  validatePassword(pass) {
+    if (pass.length < 6) {
+      this.isValidPassword = false;
+    } else {
+      this.isValidPassword = true;
+    }
   }
 }

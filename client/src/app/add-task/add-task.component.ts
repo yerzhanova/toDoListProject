@@ -12,16 +12,31 @@ export class AddTaskComponent implements OnInit {
   constructor(private _taskService: TaskService,
               private _router: Router) { }
   task = {
+    title: '',
+    description: '',
+    date: null,
+    userId: sessionStorage.getItem('id')
   };
+  isValidTask = true;
   ngOnInit() {
+
   }
-  addTask(){
-    this._taskService.addTask(this.task).subscribe(
-      res => {
-        console.log(res);
-        this._router.navigate(['/tasks']);
-      },
-      err => console.log(err)
-    )
+  addTask() {
+    if (this.task.title !== '') {
+      this.isValidTask = true;
+      console.log("task", this.task);
+      this._taskService.addTask(this.task).subscribe(
+        res => {
+          console.log(res);
+          this._router.navigate(['/tasks']);
+        },
+        err => console.log(err)
+      );
+    } else {
+      this.isValidTask = false;
+    }
+  }
+  cancel(){
+    this._router.navigate(['./tasks']);
   }
 }
