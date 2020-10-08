@@ -9,14 +9,14 @@
         <div class="card-body w-auto">
           <div><label>Description:</label></div>
           <div><textarea style="min-width: 100%;"  class="card-text"  type="text" name="description" [(ngModel)]="task.description"></textarea></div>
-          <div>
+          <div class="mt-5">
             <select name="selectedState" id="state" class="btn btn-secondary dropdown-toggle" [(ngModel)]="task.state">
               <option *ngFor="let state of states" [value]="state">{{state}}</option>
             </select>
           </div>
         </div>
-        <div class="card-footer row">
-          <div class="col ">
+        <div class="card-footer mt-5 row">
+          <div class="col">
             <button class="btn btn-success" (click)="editTask()">save</button>
           </div>
           <div class="col">

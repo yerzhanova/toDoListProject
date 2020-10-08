@@ -23,7 +23,9 @@ export class TaskComponent implements OnInit {
   ];
   filteredTasks = [];
   filterState = this.states[0];
+  filterDate = new Date();
   ngOnInit() {
+    console.log(this.filterDate);
     const userId = sessionStorage.getItem('id');
     this._taskService.getTasksByUserId(userId).subscribe(
       res => {
@@ -56,5 +58,15 @@ export class TaskComponent implements OnInit {
       console.log(this.filterState);
       this.filteredTasks = this.tasks.filter(task => task.state === this.filterState);
     }
+  }
+
+  filterByDate(event) {
+    this.filterState = 'all';
+    this.filterDate = new Date(event.target.value);
+    let startDate = new Date(this.filterDate);
+    startDate.setHours(0, 0, 0, 0);
+    let finishDate = new Date(startDate);
+    finishDate.setDate(startDate.getDate() + 1);
+    this.filteredTasks = this.tasks.filter(task => (new Date(task.date) >= new Date(startDate)) && (new Date(task.date) < new Date(finishDate)));
   }
 }

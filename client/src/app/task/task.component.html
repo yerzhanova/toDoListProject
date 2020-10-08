@@ -1,7 +1,9 @@
-
-<select name="selectedState" id="state" class="btn btn-secondary dropdown-toggle" (click)="filterByState()" [(ngModel)]="filterState" >
-  <option *ngFor="let state of states" [value]="state" >{{state}}</option>
-</select>
+<div class="row mt-2">
+  <select name="selectedState" id="state" class="btn btn-secondary dropdown-toggle" (click)="filterByState()" [(ngModel)]="filterState" >
+    <option *ngFor="let state of states" [value]="state" >{{state}}</option>
+  </select>
+  <input type="date" id="date" name="filterDate" value="filterDate" (change)="filterByDate($event)">
+</div>
 <div class="row mt-10">
   <div class="col-12 text-left mt-5">
     <button class="btn btn-success" (click)="addTask()">Add new task</button>
@@ -16,7 +18,7 @@
         <p class="card-text">
           {{task.description}}
         </p>
-        {{task.date | date: 'dd.mm.yy hh:mm:mm'}}
+        {{task.date | date: 'dd.MM.yy hh:mm:ss'}}
         <p class="card-text">
           {{task.state}}
         </p>
