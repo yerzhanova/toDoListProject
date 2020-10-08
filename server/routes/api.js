@@ -135,7 +135,7 @@ router.put('/editTask', verifyToken, (req, res) => {
 	let id = ObjectID(req.body.id);
 	task.updateOne(
 		{_id: id},
-        {set: {description: task.description, date: task.date, title: task.title}}, (err, editedTask) => {
+        {set: {description: task.description, date: task.date, title: task.title, state: task.state}}, (err, editedTask) => {
 		if (err) {
 			console.log(err);
 		} else {

@@ -14,7 +14,7 @@ export class EditTaskComponent implements OnInit {
               private _router: Router) { }
   task = {};
   id;
-
+  states = ['new', 'completed', 'deleted'];
   ngOnInit() {
     this._activatedRoute.params.subscribe(params => {
       this.id = params.id;
