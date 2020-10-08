@@ -1,3 +1,7 @@
+
+<select name="selectedState" id="state" class="btn btn-secondary dropdown-toggle" (click)="filterByState()" [(ngModel)]="filterState" >
+  <option *ngFor="let state of states" [value]="state" >{{state}}</option>
+</select>
 <div class="row mt-10">
   <div class="col-12 text-left mt-5">
     <button class="btn btn-success" (click)="addTask()">Add new task</button>
@@ -5,14 +9,17 @@
   <div class="col-12 mt-5 text-center">
     <label class="h4">List of your tasks:</label>
   </div>
-  <div class="col-md-3 mt-5" *ngFor="let task of tasks">
+  <div class="col-md-3 mt-5" *ngFor="let task of filteredTasks">
     <div class="card h-100 text-center">
       <div class="card-body">
         <h5 class="card-title">{{task.title}}</h5>
         <p class="card-text">
           {{task.description}}
         </p>
-        {{task.date | date:"shortDate"}}
+        {{task.date | date: 'dd.mm.yy hh:mm:mm'}}
+        <p class="card-text">
+          {{task.state}}
+        </p>
       </div>
       <div class="card-footer">
         <button class="btn btn-primary" (click)="editTask(task)">Edit task</button>

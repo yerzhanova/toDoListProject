@@ -15,17 +15,20 @@ export class AddTaskComponent implements OnInit {
     title: '',
     description: '',
     date: new Date(),
-    userId: sessionStorage.getItem('id')
+    userId: sessionStorage.getItem('id'),
+    state: 'new'
   };
   isValidTask = true;
-
+  states = ['new', 'completed', 'deleted'];
+  currentState = this.states[0];
   ngOnInit() {
-
+    this.task.state = this.currentState;
   }
 
   addTask() {
     if (this.task.title !== '') {
       this.isValidTask = true;
+      this.task.state = this.currentState;
       let userId = sessionStorage.getItem('id');
       if (userId) {
         this._taskService.addTask(userId, this.task).subscribe(

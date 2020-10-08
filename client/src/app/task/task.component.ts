@@ -15,14 +15,21 @@ export class TaskComponent implements OnInit {
   tasks = [];
   user = {
   };
-
+  states = [
+    'all',
+    'completed',
+    'new',
+    'deleted'
+  ];
+  filteredTasks = [];
+  filterState = this.states[0];
   ngOnInit() {
     const userId = sessionStorage.getItem('id');
     this._taskService.getTasksByUserId(userId).subscribe(
       res => {
          console.log(res);
          this.tasks = res;
-         // console.log(typeof res);
+         this.filteredTasks = res;
       },
       err => {
         if (err instanceof HttpErrorResponse) {
@@ -40,5 +47,14 @@ export class TaskComponent implements OnInit {
 
   addTask() {
     this._router.navigate(['addTask']);
+  }
+
+  filterByState() {
+    if (this.filterState === 'all') {
+      this.filteredTasks = this.tasks;
+    } else {
+      console.log(this.filterState);
+      this.filteredTasks = this.tasks.filter(task => task.state === this.filterState);
+    }
   }
 }
