@@ -10,6 +10,6 @@ npm i
 ng serve -o
 
 to do
-add httpOptions
-add typing
-fix expected argument in task service
+add httpOptions;
+add typing;
+fix expected argument in task service;
