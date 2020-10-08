@@ -94,19 +94,32 @@ router.get('/tasks', verifyToken, (req, res) => {
 //error with get param!!!
 router.get('/getTasksByUserId', verifyToken, (req, res) => {
 	let id = req.userId;
-	Task.find({userId: ObjectID(id)}, (err, tasks) => {
-		if (err) {
-			console.log(err)
-		} else {
-			res.status(200).send(tasks);
-		}
-	})
+	Task.find({userId: ObjectID(id)},
+		(err, tasks) => {
+			if(err) {
+				console.log(err);
+			} else {
+				console.log(tasks);
+				res.status(200).send(tasks);
+			}
+		})
+
+	// 		})
+	// , (err, tasks) => {
+	// 	if (err) {
+	// 		console.log(err)
+	// 	} else {
+	// 		console.log(tasks);
+	// 		res.status(200).send(tasks);
+	// 	}
+	// })
 });
 
 router.post('/addTask', (req, res) => {
-	let taskData = req.body;
+	let taskData = req.body.task;
+	let userId = req.body.id;
 	let task = new Task(taskData);
-	task.id = ObjectID(task.id);
+	task.userId = ObjectID(userId);
 	task.save((err, savedTask) => {
 		if (err) {
 			console.log(err);

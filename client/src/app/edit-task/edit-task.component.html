@@ -4,11 +4,11 @@
       <div class="card-body">
         <div class="card-header">
           <div><label>Title of task:</label></div>
-          <div><input name="name" class="card-title" [(ngModel)]="task.title"></div>
+          <div><input name="name" style="min-width: 100%;" class="card-title" [(ngModel)]="task.title"></div>
         </div>
-        <div class="card-body ">
+        <div class="card-body w-auto">
           <div><label>Description:</label></div>
-          <div><textarea name="description" class="card-title" [(ngModel)]="task.description" row="5"></textarea></div>
+          <div><textarea style="min-width: 100%;"  class="card-text"  type="text" name="description" [(ngModel)]="task.description"></textarea></div>
         </div>
         <div class="card-footer row">
           <div class="col ">

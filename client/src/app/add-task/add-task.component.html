@@ -5,14 +5,14 @@
         <div class="card-header">
           <div class="form-group">
             <div><label>Title of task:</label></div>
-            <div class="w-100"
-            ><input name="name" class="card-title mw-100" [(ngModel)]="task.title" placeholder="Title of task"></div>
+            <div class="w-100">
+              <input style="min-width: 100%;" name="name" class="card-title mw-100" [(ngModel)]="task.title" placeholder="Title of task"></div>
             <div><label class="text-danger" *ngIf="!isValidTask">Title is empty!</label></div>
           </div>
         </div>
         <div class="card-body">
           <div><label>Description:</label></div>
-          <div><textarea name="description" class="card-text" [(ngModel)]="task.description" rows="5"
+          <div><textarea style="min-width: 100%;" name="description" class="card-text" [(ngModel)]="task.description" rows="5"
                          placeholder="..."></textarea></div>
           <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
         </div>

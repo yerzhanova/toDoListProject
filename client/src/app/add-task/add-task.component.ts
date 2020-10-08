@@ -14,7 +14,7 @@ export class AddTaskComponent implements OnInit {
   task = {
     title: '',
     description: '',
-    date: null,
+    date: new Date(),
     userId: sessionStorage.getItem('id')
   };
   isValidTask = true;
@@ -26,13 +26,19 @@ export class AddTaskComponent implements OnInit {
   addTask() {
     if (this.task.title !== '') {
       this.isValidTask = true;
-      this._taskService.addTask(this.task).subscribe(
-        res => {
-          console.log(res);
-          this._router.navigate(['/tasks']);
-        },
-        err => console.log(err)
-      );
+      let userId = sessionStorage.getItem('id');
+      if (userId) {
+        this._taskService.addTask(userId, this.task).subscribe(
+          res => {
+            console.log(res);
+            this._router.navigate(['/tasks']);
+          },
+          err => console.log(err)
+        );
+      } else {
+        console.log('session ended');
+        this._router.navigate(['/login']);
+      }
     } else {
       this.isValidTask = false;
     }

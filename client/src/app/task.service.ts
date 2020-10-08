@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -13,20 +16,20 @@ export class TaskService {
   private _deleteTaskByIdServiceUrl = "http://localhost:3000/api/deleteTaskById";
   constructor(private http: HttpClient) { }
 
-  getTasks() {
-    return this.http.get<any[]>(this._taskServiceUrl);
-  }
+  // getTasks() {
+  //   return this.http.get<any[]>(this._taskServiceUrl);
+  // }
 
   getTasksByUserId(id) {
-    return this.http.get<any>(this._getTasksByUserIdServiceUrl, id);
+    return this.http.get<any>(this._getTasksByUserIdServiceUrl, httpOptions, id);
   }
 
   getTaskById(id) {
     return this.http.get<any>(`${this._getTaskByIdServiceUrl}/${id}`, id);
   }
 
-  addTask(task) {
-    return this.http.post<any>(this._addTaskServiceUrl, task);
+  addTask(id, task) {
+    return this.http.post<any>(this._addTaskServiceUrl, {id, task}, httpOptions);
   }
 
   editTask(id, task) {

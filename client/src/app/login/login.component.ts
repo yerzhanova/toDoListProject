@@ -17,7 +17,9 @@ export class LoginComponent implements OnInit {
   };
   authError = false;
   ngOnInit() {
-    console.log("g");
+    if (localStorage.getItem('token')) {
+      this._router.navigate(['/tasks']);
+    }
   }
   loginUser() {
     this.authError = false;

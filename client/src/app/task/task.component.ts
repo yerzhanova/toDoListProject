@@ -20,7 +20,9 @@ export class TaskComponent implements OnInit {
     const userId = sessionStorage.getItem('id');
     this._taskService.getTasksByUserId(userId).subscribe(
       res => {
+         console.log(res);
          this.tasks = res;
+         // console.log(typeof res);
       },
       err => {
         if (err instanceof HttpErrorResponse) {
